@@ -144,7 +144,7 @@ export default function PrediccionForm() {
     <form onSubmit={handleSubmit} className="form-container">
       {/* INFORMACIÓN SOBRE VARIABLES */}
       <div className="form-section section-info">
-        <h2 className="section-title">📊 Información sobre las Variables</h2>
+        <h2 className="section-title">Información sobre las Variables</h2>
         <div className="info-content">
           <p className="info-text">
             Este formulario utiliza variables categorizadas por su impacto en la predicción de deserción:
