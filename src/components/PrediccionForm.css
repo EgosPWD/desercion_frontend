@@ -41,6 +41,53 @@
   border: 2px solid #ea580c;
 }
 
+/* Sección de Información */
+.section-info {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border: 2px solid #3b82f6;
+}
+
+/* Sección Macroeconómica */
+.section-macroeconomic {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  border: 2px solid #6366f1;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-text {
+  font-size: 0.95rem;
+  color: #374151;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.info-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: #374151;
+}
+
+.info-list li {
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.info-note {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+  text-align: center;
+  padding: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0.5rem;
+  border: 1px dashed #9ca3af;
+}
+
 /* Título de Sección */
 .section-title {
   font-size: 1.5rem;
@@ -84,6 +131,27 @@
   font-weight: 500;
   color: #374151;
   display: block;
+}
+
+/* Descripción del Campo */
+.form-description {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-style: italic;
+  margin-bottom: 0.25rem;
+  display: block;
+  line-height: 1.3;
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(249, 250, 251, 0.8);
+  border-radius: 0.25rem;
+  border-left: 3px solid #d1d5db;
+  transition: all 0.2s ease;
+}
+
+.form-field:hover .form-description {
+  background-color: #f3f4f6;
+  border-left-color: #6b7280;
+  color: #374151;
 }
 
 /* Input Base */

@@ -1,32 +1,26 @@
-# Etapa 1: Build
-FROM node:20-alpine AS build
+# Usamos Node.js
+FROM node:20-alpine
 
-# Establecer el directorio de trabajo
+# Directorio de trabajo
 WORKDIR /app
 
-# Copiar package.json y package-lock.json (o pnpm-lock.yaml)
+# Copiamos package.json y package-lock.json
 COPY package*.json ./
 
-# Instalar dependencias
+# Instalamos dependencias
 RUN npm install
 
-# Copiar todo el proyecto
+# Copiamos el resto del proyecto
 COPY . .
 
-# Construir la app para producción
+# Construimos la app
 RUN npm run build
 
-# Etapa 2: Servir con Nginx
-FROM nginx:alpine
+# Instalamos "serve" globalmente para servir la app
+RUN npm install -g serve
 
-# Copiar el build de React al directorio de Nginx
-COPY --from=build /app/build /usr/share/nginx/html
+# Exponer puerto (puedes cambiarlo)
+EXPOSE 3020
 
-# Copiar configuración personalizada de Nginx si la tienes
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Exponer puerto 80
-EXPOSE 80
-
-# Comando por defecto
-CMD ["nginx", "-g", "daemon off;"]
+# Comando para servir la app
+CMD ["serve", "-s", "build", "-l", "3020"]

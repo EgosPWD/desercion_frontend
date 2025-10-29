@@ -1,6 +1,57 @@
 import { useState } from "react";
 import "./PrediccionForm.css";
 
+// Descripciones de las variables
+const variableDescriptions: { [key: string]: string } = {
+  // Variables de Rendimiento Académico
+  Curricular_units_2nd_sem_approved: "Número de materias aprobadas en el segundo semestre",
+  Curricular_units_2nd_sem_grade: "Promedio de calificaciones del segundo semestre (escala 0-20)",
+  Curricular_units_1st_sem_approved: "Número de materias aprobadas en el primer semestre", 
+  Curricular_units_1st_sem_grade: "Promedio de calificaciones del primer semestre (escala 0-20)",
+  Curricular_units_1st_sem_credited: "Materias convalidadas por estudios previos en primer semestre",
+  Curricular_units_1st_sem_enrolled: "Número de materias inscritas en primer semestre",
+  Curricular_units_1st_sem_evaluations: "Número total de evaluaciones realizadas en primer semestre",
+  Curricular_units_1st_sem_without_evaluations: "Materias sin evaluación en primer semestre",
+  Curricular_units_2nd_sem_credited: "Materias convalidadas en segundo semestre",
+  Curricular_units_2nd_sem_enrolled: "Materias inscritas en segundo semestre",
+  Curricular_units_2nd_sem_evaluations: "Evaluaciones realizadas en segundo semestre",
+  Curricular_units_2nd_sem_without_evaluations: "Materias sin evaluación en segundo semestre",
+  
+  // Variables Financieras
+  Tuition_fees_up_to_date: "Indica si el estudiante está al día con el pago de matrícula",
+  Debtor: "Indica si el estudiante tiene deudas con la institución",
+  
+  // Variables de Apoyo Educativo
+  Scholarship_holder: "Indica si el estudiante tiene beca",
+  Educational_special_needs: "Indica si tiene necesidades educativas especiales o discapacidad",
+  
+  // Variables Demográficas
+  Age_at_enrollment: "Edad del estudiante al momento de inscribirse en la universidad",
+  Gender: "Género del estudiante",
+  Marital_status: "Estado civil del estudiante (Soltero, Casado, Viudo, etc.)",
+  Nacionality: "País de origen del estudiante",
+  Displaced: "Indica si el estudiante vive lejos de su lugar de origen/familia",
+  International: "Indica si el estudiante es extranjero/internacional",
+  
+  // Variables de Acceso/Admisión
+  Application_mode: "Método o vía de ingreso utilizada (contingente general, transferencia, etc.)",
+  Application_order: "Preferencia de elección del curso (0=primera opción, 9=última)",
+  Course: "Carrera/programa académico en el que se inscribió",
+  Daytime_evening_attendance: "Horario de clases (Diurno o Nocturno)",
+  Previous_qualification: "Nivel educativo previo del estudiante",
+  
+  // Variables Socioeconómicas Familiares
+  Mothers_qualification: "Nivel educativo de la madre",
+  Fathers_qualification: "Nivel educativo del padre", 
+  Mothers_occupation: "Profesión u ocupación de la madre",
+  Fathers_occupation: "Profesión u ocupación del padre",
+  
+  // Variables Macroeconómicas
+  Unemployment_rate: "Tasa de desempleo del país al momento de inscripción",
+  Inflation_rate: "Tasa de inflación del país al momento de inscripción", 
+  GDP: "Producto Interno Bruto del país al momento de inscripción"
+};
+
 interface Resultado {
   usuario: string;
   resultado: string;
@@ -91,12 +142,33 @@ export default function PrediccionForm() {
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
+      {/* INFORMACIÓN SOBRE VARIABLES */}
+      <div className="form-section section-info">
+        <h2 className="section-title">📊 Información sobre las Variables</h2>
+        <div className="info-content">
+          <p className="info-text">
+            Este formulario utiliza variables categorizadas por su impacto en la predicción de deserción:
+          </p>
+          <ul className="info-list">
+            <li><strong>Variables Críticas:</strong> Tienen el mayor impacto en la predicción (rendimiento académico, situación financiera)</li>
+            <li><strong>Variables Importantes:</strong> Contribuyen significativamente al modelo (demográficas, admisión)</li>
+            <li><strong>Variables Macroeconómicas:</strong> Contexto económico del país al momento de inscripción</li>
+          </ul>
+          <p className="info-note">
+            <em>Pasa el cursor sobre cada campo para ver su descripción detallada.</em>
+          </p>
+        </div>
+      </div>
+
       {/* VARIABLES CRÍTICAS */}
       <div className="form-section section-critical">
         <h2 className="section-title">Variables Críticas (Mayor Impacto)</h2>
         <div className="form-grid">
           <div className="form-field">
             <span className="form-label">Unidades Aprobadas 2do Semestre</span>
+            <span className="form-description">
+              {variableDescriptions.Curricular_units_2nd_sem_approved}
+            </span>
             <input
               type="number"
               name="Curricular_units_2nd_sem_approved"
@@ -109,6 +181,9 @@ export default function PrediccionForm() {
 
           <div className="form-field">
             <span className="form-label">Nota Promedio 2do Semestre (0-20)</span>
+            <span className="form-description">
+              {variableDescriptions.Curricular_units_2nd_sem_grade}
+            </span>
             <input
               type="number"
               step="0.1"
@@ -123,6 +198,9 @@ export default function PrediccionForm() {
 
           <div className="form-field">
             <span className="form-label">Unidades Aprobadas 1er Semestre</span>
+            <span className="form-description">
+              {variableDescriptions.Curricular_units_1st_sem_approved}
+            </span>
             <input
               type="number"
               name="Curricular_units_1st_sem_approved"
@@ -135,6 +213,9 @@ export default function PrediccionForm() {
 
           <div className="form-field">
             <span className="form-label">Nota Promedio 1er Semestre (0-20)</span>
+            <span className="form-description">
+              {variableDescriptions.Curricular_units_1st_sem_grade}
+            </span>
             <input
               type="number"
               step="0.1"
@@ -149,6 +230,9 @@ export default function PrediccionForm() {
 
           <div className="form-field">
             <span className="form-label">Matrícula al Día</span>
+            <span className="form-description">
+              {variableDescriptions.Tuition_fees_up_to_date}
+            </span>
             <select
               name="Tuition_fees_up_to_date"
               value={formData.Tuition_fees_up_to_date}
@@ -162,6 +246,9 @@ export default function PrediccionForm() {
 
           <div className="form-field">
             <span className="form-label">Becario</span>
+            <span className="form-description">
+              {variableDescriptions.Scholarship_holder}
+            </span>
             <select
               name="Scholarship_holder"
               value={formData.Scholarship_holder}
@@ -181,6 +268,9 @@ export default function PrediccionForm() {
         <div className="form-grid">
           <div className="form-field">
             <span className="form-label">Edad al Inscribirse</span>
+            <span className="form-description">
+              {variableDescriptions.Age_at_enrollment}
+            </span>
             <input
               type="number"
               name="Age_at_enrollment"
@@ -194,6 +284,9 @@ export default function PrediccionForm() {
 
           <div className="form-field">
             <span className="form-label">Deudor</span>
+            <span className="form-description">
+              {variableDescriptions.Debtor}
+            </span>
             <select
               name="Debtor"
               value={formData.Debtor}
@@ -207,6 +300,9 @@ export default function PrediccionForm() {
 
           <div className="form-field">
             <span className="form-label">Género</span>
+            <span className="form-description">
+              {variableDescriptions.Gender}
+            </span>
             <select
               name="Gender"
               value={formData.Gender}
@@ -220,6 +316,9 @@ export default function PrediccionForm() {
 
           <div className="form-field">
             <span className="form-label">Modo de Aplicación</span>
+            <span className="form-description">
+              {variableDescriptions.Application_mode}
+            </span>
             <input
               type="number"
               name="Application_mode"
@@ -237,6 +336,9 @@ export default function PrediccionForm() {
         <div className="form-grid">
           <div className="form-field">
             <span className="form-label">Tasa de Desempleo (%)</span>
+            <span className="form-description">
+              {variableDescriptions.Unemployment_rate}
+            </span>
             <input
               type="number"
               step="0.1"
@@ -249,6 +351,9 @@ export default function PrediccionForm() {
 
           <div className="form-field">
             <span className="form-label">Tasa de Inflación (%)</span>
+            <span className="form-description">
+              {variableDescriptions.Inflation_rate}
+            </span>
             <input
               type="number"
               step="0.1"
@@ -261,6 +366,9 @@ export default function PrediccionForm() {
 
           <div className="form-field">
             <span className="form-label">PIB</span>
+            <span className="form-description">
+              {variableDescriptions.GDP}
+            </span>
             <input
               type="number"
               step="0.1"
