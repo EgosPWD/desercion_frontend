@@ -23,4 +23,4 @@ RUN npm install -g serve
 EXPOSE 3020
 
 # Comando para servir la app
-CMD ["serve", "-s", "build", "-l", "3020"]
+CMD ["serve", "-s", "dist", "-l", "3020"]
