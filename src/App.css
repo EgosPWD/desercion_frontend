@@ -1,0 +1,70 @@
+/* Container principal */
+.app-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem 1rem;
+}
+
+.app-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.app-card {
+  background: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+/* Header */
+.app-header {
+  background: linear-gradient(to right, #16a34a, #14b8a6);
+  padding: 2rem;
+  color: white;
+  text-align: center;
+}
+
+.app-title {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.app-subtitle {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Form container */
+.app-content {
+  padding: 2rem;
+}
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: white;
+  font-size: 0.875rem;
+  opacity: 0.75;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .app-title {
+    font-size: 1.75rem;
+  }
+  
+  .app-subtitle {
+    font-size: 1rem;
+  }
+  
+  .app-content {
+    padding: 1rem;
+  }
+}
