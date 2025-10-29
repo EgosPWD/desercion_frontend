@@ -186,12 +186,13 @@ export default function PrediccionForm() {
             </span>
             <input
               type="number"
-              step="0.1"
+              step="0.01"
               name="Curricular_units_2nd_sem_grade"
               value={formData.Curricular_units_2nd_sem_grade}
               onChange={handleChange}
               min={0}
               max={20}
+              placeholder="Ejemplo: 16.75"
               className="form-input"
             />
           </div>
@@ -218,12 +219,13 @@ export default function PrediccionForm() {
             </span>
             <input
               type="number"
-              step="0.1"
+              step="0.01"
               name="Curricular_units_1st_sem_grade"
               value={formData.Curricular_units_1st_sem_grade}
               onChange={handleChange}
               min={0}
               max={20}
+              placeholder="Ejemplo: 15.25"
               className="form-input"
             />
           </div>
