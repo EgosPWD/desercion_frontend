@@ -1,19 +1,21 @@
 /* ===================================
-   ANÁLISIS MASIVO - ESTILOS
+   ANÁLISIS MASIVO - ESTILO FORMAL
    =================================== */
 
 .masivo-container {
   max-width: 1400px;
-  margin: 2rem auto;
-  padding: 2rem;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
 .masivo-title {
-  font-size: 2.5rem;
+  font-size: 1.875rem;
   font-weight: 700;
-  color: #1f2937;
+  color: #111827;
   margin-bottom: 2rem;
-  text-align: center;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 1rem;
 }
 
 /* ===================================
@@ -29,28 +31,29 @@
 }
 
 .section-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #374151;
+  color: #111827;
   margin-bottom: 1rem;
 }
 
 .upload-card,
 .config-card {
   background: white;
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 /* Drop Zone */
 .drop-zone {
-  border: 3px dashed #cbd5e1;
-  border-radius: 1rem;
+  border: 2px dashed #d1d5db;
+  border-radius: 0.5rem;
   padding: 3rem 2rem;
   text-align: center;
-  background: #f8fafc;
-  transition: all 0.3s ease;
+  background: #f9fafb;
+  transition: all 0.2s ease;
   cursor: pointer;
 }
 
@@ -67,19 +70,28 @@
 }
 
 .drop-zone-icon {
-  font-size: 4rem;
-  opacity: 0.5;
+  font-size: 3rem;
+  opacity: 0.8;
+  display: flex;
+  justify-content: center;
+  color: #9ca3af;
+}
+
+.drop-zone-icon svg {
+  width: 64px;
+  height: 64px;
+  stroke: currentColor;
 }
 
 .drop-zone-title {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 600;
   color: #1f2937;
   margin: 0;
 }
 
 .drop-zone-subtitle {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #6b7280;
   margin: 0;
 }
@@ -92,58 +104,71 @@
 
 .file-button {
   display: inline-block;
-  padding: 0.875rem 2rem;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  padding: 0.625rem 1.25rem;
+  background-color: #3b82f6;
   color: white;
   border: none;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background-color 0.15s ease;
   cursor: pointer;
   user-select: none;
 }
 
 .file-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+  background-color: #2563eb;
 }
 
 .file-button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+  background-color: #1d4ed8;
 }
 
 .file-info {
   margin-top: 1rem;
-  padding: 1rem;
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-  border-radius: 0.5rem;
+  padding: 0.75rem;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 0.375rem;
 }
 
 .file-count {
   color: #065f46;
-  font-weight: 600;
+  font-weight: 500;
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+
+.check-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: #059669;
 }
 
 .upload-instructions {
   margin-top: 1.5rem;
   padding: 1rem;
   background: #f9fafb;
-  border-left: 4px solid #3b82f6;
-  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
 }
 
 .upload-instructions h4 {
   margin: 0 0 0.5rem 0;
   color: #1f2937;
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
 .upload-instructions p {
   margin: 0.5rem 0;
   color: #6b7280;
   font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 .csv-example {
@@ -151,35 +176,42 @@
   margin: 0.75rem 0;
   padding: 0.75rem;
   background: #1f2937;
-  color: #10b981;
+  color: #e5e7eb;
   border-radius: 0.375rem;
   font-family: 'Courier New', monospace;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   overflow-x: auto;
 }
 
 .note {
   font-style: italic;
-  color: #9ca3af !important;
+  color: #6b7280 !important;
   font-size: 0.8rem !important;
 }
 
 .download-example {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   margin-top: 1rem;
-  padding: 0.625rem 1.25rem;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
+  padding: 0.5rem 1rem;
+  background-color: #ffffff;
+  color: #059669;
+  border: 1px solid #059669;
   text-decoration: none;
-  border-radius: 0.5rem;
-  font-weight: 600;
+  border-radius: 0.375rem;
+  font-weight: 500;
   font-size: 0.875rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.15s ease;
+}
+
+.download-example svg {
+  width: 16px;
+  height: 16px;
 }
 
 .download-example:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+  background-color: #ecfdf5;
 }
 
 /* ===================================
@@ -189,26 +221,28 @@
 .config-label {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.375rem;
   color: #374151;
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 0.95rem;
 }
 
 .config-input {
-  padding: 0.75rem;
-  border: 2px solid #d1d5db;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease;
 }
 
 .config-input:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .config-help {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: #6b7280;
   font-weight: 400;
 }
@@ -219,28 +253,25 @@
 
 .analyze-button {
   width: 100%;
-  padding: 1.25rem 2rem;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  padding: 0.875rem 1.5rem;
+  background-color: #059669;
   color: white;
   border: none;
-  border-radius: 0.75rem;
-  font-size: 1.125rem;
-  font-weight: 700;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3);
+  transition: background-color 0.15s ease;
   margin-bottom: 2rem;
 }
 
 .analyze-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 12px rgba(16, 185, 129, 0.4);
+  background-color: #047857;
 }
 
 .analyze-button:disabled {
-  background: #9ca3af;
+  background-color: #9ca3af;
   cursor: not-allowed;
-  box-shadow: none;
 }
 
 /* ===================================
@@ -248,17 +279,18 @@
    =================================== */
 
 .error-container {
-  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-  border: 2px solid #dc2626;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.375rem;
+  padding: 1rem;
   margin-bottom: 2rem;
 }
 
 .error-title {
-  font-weight: 700;
+  font-weight: 600;
   color: #991b1b;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
 }
 
 /* ===================================
@@ -268,43 +300,36 @@
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .stat-card {
   background: white;
-  border-radius: 1rem;
-  padding: 2rem;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-  border: 3px solid #e5e7eb;
-  transition: transform 0.2s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-4px);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .stat-card.stat-danger {
-  border-color: #dc2626;
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-top: 4px solid #dc2626;
 }
 
 .stat-card.stat-warning {
-  border-color: #f59e0b;
-  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border-top: 4px solid #f59e0b;
 }
 
 .stat-value {
-  font-size: 3rem;
+  font-size: 2.25rem;
   font-weight: 700;
-  color: #1f2937;
+  color: #111827;
   line-height: 1;
   margin-bottom: 0.5rem;
 }
 
 .stat-label {
-  font-size: 1rem;
+  font-size: 0.875rem;
   color: #6b7280;
   font-weight: 600;
   text-transform: uppercase;
@@ -318,71 +343,79 @@
 .table-container {
   overflow-x: auto;
   background: white;
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .risk-table,
 .career-table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 0.95rem;
 }
 
 .risk-table th,
 .career-table th {
-  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-  color: white;
-  padding: 1rem;
+  background-color: #f9fafb;
+  color: #374151;
+  padding: 0.75rem 1rem;
   text-align: left;
   font-weight: 600;
   text-transform: uppercase;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   letter-spacing: 0.05em;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .risk-table td,
 .career-table td {
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   border-bottom: 1px solid #e5e7eb;
   color: #374151;
 }
 
+.risk-table tbody tr:last-child td,
+.career-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
 .risk-table tbody tr:hover,
 .career-table tbody tr:hover {
-  background: #f9fafb;
+  background-color: #f9fafb;
 }
 
 .high-risk-row {
-  background: #fef2f2 !important;
+  background-color: #fef2f2 !important;
 }
 
 .high-risk-row:hover {
-  background: #fee2e2 !important;
+  background-color: #fee2e2 !important;
 }
 
 /* Badges de nivel */
 .nivel-badge {
   display: inline-block;
-  padding: 0.375rem 0.75rem;
+  padding: 0.25rem 0.625rem;
   border-radius: 9999px;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
 .nivel-badge.nivel-crítico {
-  background: #dc2626;
-  color: white;
+  background-color: #fee2e2;
+  color: #991b1b;
 }
 
 .nivel-badge.nivel-alto {
-  background: #f59e0b;
-  color: white;
+  background-color: #fef3c7;
+  color: #92400e;
 }
 
 /* Celdas especiales */
 .prob-cell {
-  font-weight: 700;
+  font-weight: 600;
   color: #dc2626;
 }
 
@@ -393,12 +426,12 @@
 
 .grad-cell {
   font-weight: 600;
-  color: #10b981;
+  color: #059669;
 }
 
 .career-id {
-  font-weight: 700;
-  color: #1f2937;
+  font-weight: 600;
+  color: #111827;
 }
 
 /* ===================================
@@ -408,16 +441,16 @@
 .progress-bar {
   position: relative;
   width: 100%;
-  height: 2rem;
+  height: 1.5rem;
   background: #e5e7eb;
-  border-radius: 9999px;
+  border-radius: 0.25rem;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 50%, #dc2626 100%);
-  transition: width 0.5s ease;
+  background-color: #3b82f6;
+  transition: width 0.3s ease;
 }
 
 .progress-text {
@@ -425,9 +458,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-weight: 700;
+  font-weight: 600;
   color: #1f2937;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  text-shadow: 0 0 2px white;
 }
 
 /* ===================================
@@ -436,11 +470,11 @@
 
 @media (max-width: 768px) {
   .masivo-container {
-    padding: 1rem;
+    padding: 0;
   }
 
   .masivo-title {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 
   .stats-grid {
@@ -448,7 +482,7 @@
   }
 
   .stat-value {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .table-container {

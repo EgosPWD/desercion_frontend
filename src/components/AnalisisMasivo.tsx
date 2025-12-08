@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getIconSvg } from "../assets/svg";
 import "./AnalisisMasivo.css";
 
 interface Estudiante {
@@ -277,7 +278,7 @@ export default function AnalisisMasivo() {
             />
             
             <div className="drop-zone-content">
-              <div className="drop-zone-icon">📁</div>
+              <div className="drop-zone-icon" dangerouslySetInnerHTML={{ __html: getIconSvg('upload') }} />
               <p className="drop-zone-title">Arrastra tu archivo CSV aquí</p>
               <p className="drop-zone-subtitle">o</p>
               <button 
@@ -303,7 +304,8 @@ export default function AnalisisMasivo() {
           {estudiantes.length > 0 && (
             <div className="file-info">
               <p className="file-count">
-                ✓ {estudiantes.length} estudiantes cargados
+                <span className="check-icon" dangerouslySetInnerHTML={{ __html: getIconSvg('check-circle') }} />
+                {estudiantes.length} estudiantes cargados
               </p>
             </div>
           )}
@@ -322,7 +324,8 @@ export default function AnalisisMasivo() {
               download="ejemplo_estudiantes.csv"
               className="download-example"
             >
-              📥 Descargar CSV de ejemplo
+              <span dangerouslySetInnerHTML={{ __html: getIconSvg('download') }} />
+              Descargar CSV de ejemplo
             </a>
           </div>
         </div>

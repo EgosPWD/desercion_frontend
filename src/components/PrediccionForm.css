@@ -1,12 +1,12 @@
 /* ===================================
-   FORMULARIO DE PREDICCIÓN - ESTILOS PUROS
+   FORMULARIO DE PREDICCIÓN - ESTILO FORMAL
    =================================== */
 
 /* Contenedor Principal del Formulario */
 .form-container {
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 2rem;
+  margin: 0 auto;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -18,41 +18,37 @@
 
 /* Sección Base */
 .form-section {
-  border-radius: 1rem;
+  background: #ffffff;
+  border-radius: 0.5rem;
   padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
 }
 
-.form-section:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Sección Crítica (Variables más importantes) */
+/* Variantes de Sección (Acentos sutiles) */
 .section-critical {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  border: 2px solid #f59e0b;
+  border-left: 4px solid #ef4444; /* Rojo profesional para crítico */
 }
 
-/* Sección Importante (Variables secundarias) */
 .section-important {
-  background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
-  border: 2px solid #ea580c;
+  border-left: 4px solid #f59e0b; /* Ámbar para importante */
 }
 
-/* Sección de Información */
 .section-info {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  border: 2px solid #3b82f6;
+  border-left: 4px solid #3b82f6; /* Azul para información */
 }
 
-/* Sección Macroeconómica */
 .section-macroeconomic {
-  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
-  border: 2px solid #6366f1;
+  border-left: 4px solid #6366f1; /* Índigo para macroeconomía */
 }
 
+.section-complementary {
+  border-left: 4px solid #6b7280; /* Gris para complementario */
+  background-color: #f9fafb;
+}
+
+/* Contenido Informativo */
 .info-content {
   display: flex;
   flex-direction: column;
@@ -63,39 +59,41 @@
   font-size: 0.95rem;
   color: #374151;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .info-list {
   margin: 0;
-  padding-left: 1.25rem;
+  padding-left: 1.5rem;
   color: #374151;
 }
 
 .info-list li {
   margin-bottom: 0.5rem;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .info-note {
   font-size: 0.875rem;
-  color: #6b7280;
-  margin: 0;
-  text-align: center;
-  padding: 0.75rem;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 0.5rem;
-  border: 1px dashed #9ca3af;
+  color: #4b5563;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f3f4f6;
+  border-radius: 0.375rem;
+  border: 1px solid #e5e7eb;
 }
 
 /* Título de Sección */
 .section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 600;
   margin-bottom: 1.5rem;
-  color: #374151;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  color: #111827;
+  border-bottom: 1px solid #e5e7eb;
   padding-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 /* ===================================
@@ -122,7 +120,7 @@
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.375rem;
 }
 
 /* Etiqueta del Campo */
@@ -130,48 +128,34 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: #374151;
-  display: block;
 }
 
 /* Descripción del Campo */
 .form-description {
   font-size: 0.75rem;
   color: #6b7280;
-  font-style: italic;
   margin-bottom: 0.25rem;
-  display: block;
-  line-height: 1.3;
-  padding: 0.25rem 0.5rem;
-  background-color: rgba(249, 250, 251, 0.8);
-  border-radius: 0.25rem;
-  border-left: 3px solid #d1d5db;
-  transition: all 0.2s ease;
-}
-
-.form-field:hover .form-description {
-  background-color: #f3f4f6;
-  border-left-color: #6b7280;
-  color: #374151;
+  line-height: 1.4;
 }
 
 /* Input Base */
 .form-input,
 .form-select {
   width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #d1d5db;
-  border-radius: 0.5rem;
-  font-size: 1rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
   color: #1f2937;
   background-color: #ffffff;
-  transition: all 0.2s ease;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .form-input:focus,
 .form-select:focus {
   outline: none;
-  border-color: #f59e0b;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .form-input:hover,
@@ -179,308 +163,124 @@
   border-color: #9ca3af;
 }
 
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
 /* Select específico */
 .form-select {
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23374151' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
+  background-size: 1rem;
   padding-right: 2.5rem;
 }
 
 /* ===================================
-   SECCIONES COMPLEMENTARIAS
-   =================================== */
-
-/* Sección Complementaria */
-.section-complementary {
-  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-  border: 2px solid #9ca3af;
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.section-complementary .section-title {
-  color: #4b5563;
-  border-color: #d1d5db;
-}
-
-/* Sección Macroeconómica */
-.section-macroeconomic {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  border: 2px solid #3b82f6;
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
-}
-
-.section-macroeconomic .section-title {
-  color: #1e40af;
-  border-color: #93c5fd;
-}
-
-.section-macroeconomic .form-grid {
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 768px) {
-  .section-macroeconomic .form-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.section-macroeconomic .form-input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-/* ===================================
-   BOTÓN DE ENVÍO
+   BOTONES
    =================================== */
 
 .submit-button {
-  width: 100%;
-  padding: 1.25rem 2rem;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #ffffff;
-  background: linear-gradient(135deg, #059669 0%, #14b8a6 100%);
-  border: none;
-  border-radius: 1rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  background-color: #2563eb;
+  border-radius: 0.375rem;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(5, 150, 105, 0.3);
-  transition: all 0.3s ease;
+  transition: background-color 0.15s ease-in-out;
+  width: 100%;
+  margin-top: 1rem;
 }
 
 .submit-button:hover {
-  background: linear-gradient(135deg, #047857 0%, #0d9488 100%);
-  box-shadow: 0 6px 12px rgba(5, 150, 105, 0.4);
-  transform: translateY(-2px);
+  background-color: #1d4ed8;
 }
 
-.submit-button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(5, 150, 105, 0.3);
+.submit-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
 }
 
 .submit-button:disabled {
-  opacity: 0.5;
+  background-color: #9ca3af;
   cursor: not-allowed;
-  transform: none;
-}
-
-.submit-button:disabled:hover {
-  background: linear-gradient(135deg, #059669 0%, #14b8a6 100%);
-  box-shadow: 0 4px 8px rgba(5, 150, 105, 0.3);
-  transform: none;
 }
 
 /* ===================================
-   MENSAJES DE ESTADO
+   RESULTADOS
    =================================== */
 
-/* Contenedor de Error */
-.error-container {
-  padding: 1.5rem;
-  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-  border: 2px solid #ef4444;
-  border-radius: 1rem;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.15);
-}
-
-.error-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #991b1b;
-  margin-bottom: 0.5rem;
-}
-
-.error-message {
-  color: #7f1d1d;
-  font-size: 1rem;
-}
-
-/* Contenedor de Resultado */
 .result-container {
-  padding: 2rem;
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 0%, #6ee7b7 100%);
-  border: 2px solid #10b981;
-  border-radius: 1rem;
-  box-shadow: 0 6px 12px rgba(16, 185, 129, 0.2);
-}
-
-.result-content {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-/* Resultado Principal */
-.result-main {
-  display: inline-block;
-  padding: 1.5rem 2rem;
-  background-color: #ffffff;
-  border-radius: 0.75rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.result-text {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1f2937;
-}
-
-/* Probabilidad */
-.probability-container {
-  background-color: #ffffff;
-  border-radius: 0.75rem;
+  margin-top: 2rem;
   padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.result-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.risk-badge.high {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.risk-badge.medium {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.risk-badge.low {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.probability-display {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.probability-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #111827;
 }
 
 .probability-label {
   font-size: 0.875rem;
   color: #6b7280;
-  margin-bottom: 0.5rem;
-}
-
-.probability-value {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #dc2626;
-}
-
-/* Probabilidades Detalladas */
-.detailed-probabilities {
-  background-color: #ffffff;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.probabilities-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.probabilities-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-.probability-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1rem;
-  background-color: #f9fafb;
-  border-radius: 0.5rem;
-  border: 1px solid #e5e7eb;
-}
-
-.probability-item .probability-label {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-bottom: 0;
-}
-
-.probability-item .probability-value {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-/* Usuario */
-.user-info {
-  font-size: 0.875rem;
-  color: #4b5563;
-}
-
-.user-name {
-  font-weight: 600;
-  color: #1f2937;
-}
-
-/* ===================================
-   RESPONSIVE DESIGN
-   =================================== */
-
-@media (max-width: 767px) {
-  .form-container {
-    padding: 1rem;
-    margin: 1rem;
-  }
-
-  .form-section {
-    padding: 1.5rem;
-  }
-
-  .section-title {
-    font-size: 1.25rem;
-  }
-
-  .form-grid {
-    gap: 1rem;
-  }
-
-  .result-text {
-    font-size: 1.5rem;
-  }
-
-  .probability-value {
-    font-size: 2rem;
-  }
-}
-
-/* ===================================
-   ANIMACIONES
-   =================================== */
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.error-container,
-.result-container {
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* ===================================
-   ACCESIBILIDAD
-   =================================== */
-
-.form-input:focus-visible,
-.form-select:focus-visible,
-.submit-button:focus-visible {
-  outline: 3px solid #f59e0b;
-  outline-offset: 2px;
-}
-
-/* Mejora de contraste para lectores de pantalla */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* ===================================
@@ -488,51 +288,23 @@
    =================================== */
 
 .analysis-container {
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border: 2px solid #dc2626;
-  border-radius: 1rem;
-  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-top: 4px solid #dc2626;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
   margin-top: 2rem;
-  animation: fadeIn 0.4s ease-out;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .analysis-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #991b1b;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
-}
-
-.attention-badge {
-  display: inline-block;
-  padding: 0.375rem 0.875rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.attention-urgente {
-  background-color: #dc2626;
-  color: white;
-}
-
-.attention-alto {
-  background-color: #ea580c;
-  color: white;
-}
-
-.attention-moderado {
-  background-color: #f59e0b;
-  color: white;
-}
-
-.attention-bajo {
-  background-color: #10b981;
-  color: white;
+  gap: 0.75rem;
 }
 
 .factors-grid {
@@ -542,17 +314,11 @@
 }
 
 .factor-card {
-  background: white;
-  border-radius: 0.75rem;
-  padding: 1.25rem;
-  border-left: 4px solid;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.factor-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #f9fafb;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-left: 3px solid;
 }
 
 .factor-card.impact-alto {
@@ -571,51 +337,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .factor-name {
   font-weight: 600;
   color: #1f2937;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .factor-impact {
-  padding: 0.25rem 0.625rem;
-  border-radius: 0.375rem;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
-}
-
-.factor-impact.impact-alto {
-  background-color: #fecaca;
-  color: #991b1b;
-}
-
-.factor-impact.impact-medio {
-  background-color: #fed7aa;
-  color: #9a3412;
-}
-
-.factor-impact.impact-bajo {
-  background-color: #bfdbfe;
-  color: #1e40af;
+  color: #6b7280;
 }
 
 .factor-description {
-  color: #6b7280;
+  color: #4b5563;
   font-size: 0.875rem;
   line-height: 1.5;
-}
-
-.no-factors {
-  text-align: center;
-  color: #059669;
-  font-size: 1.125rem;
-  padding: 2rem;
-  background: white;
-  border-radius: 0.75rem;
 }
 
 /* ===================================
@@ -623,114 +364,102 @@
    =================================== */
 
 .recommendations-container {
-  background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
-  border: 2px solid #7c3aed;
-  border-radius: 1rem;
-  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-top: 4px solid #7c3aed;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
   margin-top: 2rem;
-  animation: fadeIn 0.5s ease-out;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .recommendations-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #5b21b6;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
-}
-
-.recommendations-count {
-  display: inline-block;
-  padding: 0.375rem 0.875rem;
-  background-color: #7c3aed;
-  color: white;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 600;
+  gap: 0.75rem;
 }
 
 .recommendations-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .recommendation-card {
-  background: white;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  border-left: 4px solid;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.recommendation-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
-.recommendation-card.priority-alta {
-  border-left-color: #dc2626;
-}
-
-.recommendation-card.priority-media {
-  border-left-color: #f59e0b;
-}
-
-.recommendation-card.priority-baja {
-  border-left-color: #3b82f6;
+  background: #f9fafb;
+  border-radius: 0.375rem;
+  padding: 1.25rem;
+  border: 1px solid #e5e7eb;
 }
 
 .recommendation-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .recommendation-type {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #6b7280;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.recommendation-priority {
-  padding: 0.25rem 0.625rem;
-  border-radius: 0.375rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.recommendation-priority.priority-alta {
-  background-color: #fecaca;
-  color: #991b1b;
-}
-
-.recommendation-priority.priority-media {
-  background-color: #fed7aa;
-  color: #9a3412;
-}
-
-.recommendation-priority.priority-baja {
-  background-color: #bfdbfe;
-  color: #1e40af;
 }
 
 .recommendation-action {
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #1f2937;
-  margin: 0.5rem 0;
+  margin-bottom: 0.5rem;
 }
 
 .recommendation-description {
   color: #4b5563;
   font-size: 0.875rem;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
+/* ===================================
+   MENSAJES DE ERROR Y ÉXITO
+   =================================== */
+
+.message {
+  padding: 1rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.message-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}
+
+.message-success {
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+
+@media (max-width: 768px) {
+  .form-container {
+    padding: 0;
+  }
+  
+  .form-section {
+    padding: 1.5rem;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

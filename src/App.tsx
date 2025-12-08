@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PrediccionForm from "./components/PrediccionForm";
 import AnalisisMasivo from "./components/AnalisisMasivo";
+import { getIconSvg } from "./assets/svg";
 import "./App.css";
 
 type Vista = "individual" | "masivo";
@@ -27,13 +28,15 @@ export default function App() {
               className={`nav-tab ${vistaActual === "individual" ? "active" : ""}`}
               onClick={() => setVistaActual("individual")}
             >
-              📊 Análisis Individual
+              <span className="nav-icon" dangerouslySetInnerHTML={{ __html: getIconSvg('user') }} />
+              Análisis Individual
             </button>
             <button
               className={`nav-tab ${vistaActual === "masivo" ? "active" : ""}`}
               onClick={() => setVistaActual("masivo")}
             >
-              📈 Análisis Masivo
+              <span className="nav-icon" dangerouslySetInnerHTML={{ __html: getIconSvg('users') }} />
+              Análisis Masivo
             </button>
           </div>
 
