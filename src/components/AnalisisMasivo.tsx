@@ -90,14 +90,48 @@ interface ResultadoCarrera {
   analisis_por_carrera: AnalisisCarrera[];
 }
 
+interface EstadisticasGenerales {
+  usuario: string;
+  resumen_general: {
+    total_estudiantes: number;
+    estudiantes_en_riesgo: number;
+    porcentaje_riesgo: number;
+    promedio_probabilidad_abandono: number;
+  };
+  demografia: {
+    edad_promedio: number;
+    edad_minima: number;
+    edad_maxima: number;
+    hombres: number;
+    mujeres: number;
+    porcentaje_hombres: number;
+    estudiantes_internacionales: number;
+  };
+  situacion_financiera: {
+    con_beca: number;
+    porcentaje_becados: number;
+    deudores: number;
+    porcentaje_deudores: number;
+  };
+  salud_mental: {
+    promedio_depresion: number;
+    promedio_ansiedad: number;
+    estudiantes_depresion_alta: number;
+    porcentaje_depresion_alta: number;
+    estudiantes_ansiedad_alta: number;
+    porcentaje_ansiedad_alta: number;
+  };
+}
+
 export default function AnalisisMasivo() {
   const [estudiantes, setEstudiantes] = useState<Estudiante[]>([]);
   const [resultadoLote, setResultadoLote] = useState<ResultadoLote | null>(null);
   const [resultadoRiesgo, setResultadoRiesgo] = useState<ResultadoRiesgo | null>(null);
   const [resultadoCarrera, setResultadoCarrera] = useState<ResultadoCarrera | null>(null);
+  const [estadisticas, setEstadisticas] = useState<EstadisticasGenerales | null>(null);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [umbralRiesgo, setUmbralRiesgo] = useState(0.6);
+  const umbralRiesgo = 0.6;
 
   console.log("🎯 Componente AnalisisMasivo renderizado");
   console.log("📚 Estudiantes cargados:", estudiantes.length);
@@ -205,6 +239,7 @@ export default function AnalisisMasivo() {
     setResultadoLote(null);
     setResultadoRiesgo(null);
     setResultadoCarrera(null);
+    setEstadisticas(null);
 
     try {
       const authHeader = "Basic " + btoa("admin:12345");
@@ -250,6 +285,18 @@ export default function AnalisisMasivo() {
       if (responseCarrera.ok) {
         const dataCarrera: ResultadoCarrera = await responseCarrera.json();
         setResultadoCarrera(dataCarrera);
+      }
+
+      // Análisis 4: Estadísticas generales
+      const responseEstadisticas = await fetch("https://desercion_api.quods.xyz/estadisticas/general", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ estudiantes }),
+      });
+
+      if (responseEstadisticas.ok) {
+        const dataEstadisticas: EstadisticasGenerales = await responseEstadisticas.json();
+        setEstadisticas(dataEstadisticas);
       }
     } catch (err: any) {
       setError("Error al analizar: " + err.message);
@@ -333,28 +380,6 @@ export default function AnalisisMasivo() {
         </div>
       </div>
 
-      {/* Configuración */}
-      <div className="config-section">
-        <h2 className="section-title">2. Configurar Análisis</h2>
-        <div className="config-card">
-          <label className="config-label">
-            Umbral de Riesgo Alto:
-            <input
-              type="number"
-              step="0.05"
-              min="0"
-              max="1"
-              value={umbralRiesgo}
-              onChange={(e) => setUmbralRiesgo(parseFloat(e.target.value))}
-              className="config-input"
-            />
-            <span className="config-help">
-              ({(umbralRiesgo * 100).toFixed(0)}% probabilidad de abandono)
-            </span>
-          </label>
-        </div>
-      </div>
-
       {/* Botón de análisis */}
       <button
         onClick={analizarLote}
@@ -373,7 +398,7 @@ export default function AnalisisMasivo() {
       )}
 
       {/* Resultados */}
-      {resultadoLote && (
+      {resultadoLote && estadisticas && (
         <div className="results-section">
           <h2 className="section-title">Resumen General</h2>
           <div className="stats-grid">
@@ -383,13 +408,41 @@ export default function AnalisisMasivo() {
             </div>
             <div className="stat-card stat-danger">
               <div className="stat-value">{resultadoLote.estudiantes_en_riesgo}</div>
-              <div className="stat-label">En Riesgo</div>
+              <div className="stat-label">En Riesgo de Deserción</div>
             </div>
             <div className="stat-card stat-warning">
               <div className="stat-value">{resultadoLote.porcentaje_riesgo}%</div>
               <div className="stat-label">% Riesgo</div>
             </div>
+            {estadisticas.salud_mental && (
+              <>
+                <div className="stat-card stat-mental">
+                  <div className="stat-value">{estadisticas.salud_mental.estudiantes_depresion_alta || 0}</div>
+                  <div className="stat-label">Con Depresión Alta</div>
+                </div>
+                <div className="stat-card stat-mental">
+                  <div className="stat-value">{estadisticas.salud_mental.estudiantes_ansiedad_alta || 0}</div>
+                  <div className="stat-label">Con Ansiedad Alta</div>
+                </div>
+              </>
+            )}
           </div>
+          
+          {estadisticas.salud_mental && (estadisticas.salud_mental.estudiantes_depresion_alta > 0 || estadisticas.salud_mental.estudiantes_ansiedad_alta > 0) && (
+            <div className="mental-health-alert">
+              <span className="alert-icon">⚠️</span>
+              <div className="alert-content">
+                <strong>Alerta de Salud Mental:</strong>
+                {estadisticas.salud_mental.estudiantes_depresion_alta > 0 && (
+                  <span> {estadisticas.salud_mental.estudiantes_depresion_alta} estudiante(s) con depresión alta ({estadisticas.salud_mental.porcentaje_depresion_alta}%)</span>
+                )}
+                {estadisticas.salud_mental.estudiantes_depresion_alta > 0 && estadisticas.salud_mental.estudiantes_ansiedad_alta > 0 && <span> | </span>}
+                {estadisticas.salud_mental.estudiantes_ansiedad_alta > 0 && (
+                  <span> {estadisticas.salud_mental.estudiantes_ansiedad_alta} estudiante(s) con ansiedad alta ({estadisticas.salud_mental.porcentaje_ansiedad_alta}%)</span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -409,23 +462,41 @@ export default function AnalisisMasivo() {
                   <th>Carrera</th>
                   <th>Beca</th>
                   <th>Deudor</th>
+                  <th>Depresión</th>
+                  <th>Ansiedad</th>
                 </tr>
               </thead>
               <tbody>
-                {resultadoRiesgo.estudiantes_alto_riesgo.map((est, index) => (
-                  <tr key={index}>
-                    <td>{est.id_estudiante}</td>
-                    <td>
-                      <span className={`nivel-badge nivel-${est.nivel_riesgo.toLowerCase()}`}>
-                        {est.nivel_riesgo}
-                      </span>
-                    </td>
-                    <td className="prob-cell">{(est.probabilidad_abandono * 100).toFixed(1)}%</td>
-                    <td>{est.carrera}</td>
-                    <td>{est.beca}</td>
-                    <td>{est.deudor}</td>
-                  </tr>
-                ))}
+                {resultadoRiesgo.estudiantes_alto_riesgo.map((est, index) => {
+                  const estudiante = estudiantes.find(e => e.id_estudiante === est.id_estudiante);
+                  const depresion = estudiante?.Depression_score || 0;
+                  const ansiedad = estudiante?.Anxiety_score || 0;
+                  
+                  return (
+                    <tr key={index}>
+                      <td>{est.id_estudiante}</td>
+                      <td>
+                        <span className={`nivel-badge nivel-${est.nivel_riesgo.toLowerCase()}`}>
+                          {est.nivel_riesgo}
+                        </span>
+                      </td>
+                      <td className="prob-cell">{(est.probabilidad_abandono * 100).toFixed(1)}%</td>
+                      <td>{est.carrera}</td>
+                      <td>{est.beca}</td>
+                      <td>{est.deudor}</td>
+                      <td>
+                        <span className={`mental-badge ${depresion >= 7 ? 'mental-critical' : depresion >= 5 ? 'mental-high' : 'mental-low'}`}>
+                          {depresion.toFixed(1)}
+                        </span>
+                      </td>
+                      <td>
+                        <span className={`mental-badge ${ansiedad >= 7 ? 'mental-critical' : ansiedad >= 5 ? 'mental-high' : 'mental-low'}`}>
+                          {ansiedad.toFixed(1)}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -472,6 +543,133 @@ export default function AnalisisMasivo() {
               </tbody>
             </table>
           </div>
+        </div>
+      )}
+
+      {/* Estadísticas Generales */}
+      {estadisticas && (
+        <div className="stats-section">
+          <h2 className="section-title">Dashboard de Estadísticas Generales</h2>
+          
+          {/* Resumen General */}
+          {estadisticas.resumen_general && (
+            <div className="stats-category">
+              <h3 className="category-title">Resumen General</h3>
+              <div className="stats-grid-full">
+                <div className="stat-card stat-primary">
+                  <div className="stat-icon" dangerouslySetInnerHTML={{ __html: getIconSvg('users') }} />
+                  <div className="stat-content">
+                    <div className="stat-value">{estadisticas.resumen_general.total_estudiantes || 0}</div>
+                    <div className="stat-label">Total Estudiantes</div>
+                  </div>
+                </div>
+                <div className="stat-card stat-danger">
+                  <div className="stat-icon" dangerouslySetInnerHTML={{ __html: getIconSvg('alert-triangle') }} />
+                  <div className="stat-content">
+                    <div className="stat-value">{estadisticas.resumen_general.estudiantes_en_riesgo || 0}</div>
+                    <div className="stat-label">En Riesgo de Deserción</div>
+                  </div>
+                </div>
+                <div className="stat-card stat-warning">
+                  <div className="stat-icon" dangerouslySetInnerHTML={{ __html: getIconSvg('percent') }} />
+                  <div className="stat-content">
+                    <div className="stat-value">{estadisticas.resumen_general.porcentaje_riesgo || 0}%</div>
+                    <div className="stat-label">Porcentaje de Riesgo</div>
+                  </div>
+                </div>
+                <div className="stat-card stat-info">
+                  <div className="stat-icon" dangerouslySetInnerHTML={{ __html: getIconSvg('trending-up') }} />
+                  <div className="stat-content">
+                    <div className="stat-value">{((estadisticas.resumen_general.promedio_probabilidad_abandono || 0) * 100).toFixed(1)}%</div>
+                    <div className="stat-label">Prob. Promedio Abandono</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Demografía */}
+          {estadisticas.demografia && (
+            <div className="stats-category">
+              <h3 className="category-title">Demografía</h3>
+              <div className="stats-grid">
+                <div className="stat-card">
+                  <div className="stat-value">{estadisticas.demografia.edad_promedio || 0} años</div>
+                  <div className="stat-label">Edad Promedio</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-value">{estadisticas.demografia.edad_minima || 0} - {estadisticas.demografia.edad_maxima || 0}</div>
+                  <div className="stat-label">Rango de Edad</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-value">{estadisticas.demografia.hombres || 0}</div>
+                  <div className="stat-label">Hombres ({estadisticas.demografia.porcentaje_hombres || 0}%)</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-value">{estadisticas.demografia.mujeres || 0}</div>
+                  <div className="stat-label">Mujeres ({(100 - (estadisticas.demografia.porcentaje_hombres || 0)).toFixed(1)}%)</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-value">{estadisticas.demografia.estudiantes_internacionales || 0}</div>
+                  <div className="stat-label">Estudiantes Internacionales</div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Situación Financiera */}
+          {estadisticas.situacion_financiera && (
+            <div className="stats-category">
+              <h3 className="category-title">Situación Financiera</h3>
+              <div className="stats-grid">
+                <div className="stat-card stat-success">
+                  <div className="stat-value">{estadisticas.situacion_financiera.con_beca || 0}</div>
+                  <div className="stat-label">Con Beca ({estadisticas.situacion_financiera.porcentaje_becados || 0}%)</div>
+                </div>
+                <div className="stat-card stat-danger">
+                  <div className="stat-value">{estadisticas.situacion_financiera.deudores || 0}</div>
+                  <div className="stat-label">Deudores ({estadisticas.situacion_financiera.porcentaje_deudores || 0}%)</div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Salud Mental */}
+          {estadisticas.salud_mental && (
+            <div className="stats-category">
+              <h3 className="category-title">Salud Mental</h3>
+              <div className="stats-grid">
+                <div className="stat-card stat-mental">
+                  <div className="stat-value">{estadisticas.salud_mental.promedio_depresion?.toFixed(2) || '0.00'}</div>
+                  <div className="stat-label">Promedio Depresión (0-10)</div>
+                </div>
+                <div className="stat-card stat-mental">
+                  <div className="stat-value">{estadisticas.salud_mental.promedio_ansiedad?.toFixed(2) || '0.00'}</div>
+                  <div className="stat-label">Promedio Ansiedad (0-10)</div>
+                </div>
+                <div className={`stat-card ${(estadisticas.salud_mental.porcentaje_depresion_alta || 0) > 20 ? 'stat-danger' : 'stat-warning'}`}>
+                  <div className="stat-value">{estadisticas.salud_mental.estudiantes_depresion_alta || 0}</div>
+                  <div className="stat-label">Depresión Alta ({estadisticas.salud_mental.porcentaje_depresion_alta || 0}%)</div>
+                </div>
+                <div className={`stat-card ${(estadisticas.salud_mental.porcentaje_ansiedad_alta || 0) > 20 ? 'stat-danger' : 'stat-warning'}`}>
+                  <div className="stat-value">{estadisticas.salud_mental.estudiantes_ansiedad_alta || 0}</div>
+                  <div className="stat-label">Ansiedad Alta ({estadisticas.salud_mental.porcentaje_ansiedad_alta || 0}%)</div>
+                </div>
+              </div>
+              
+              {((estadisticas.salud_mental.porcentaje_depresion_alta || 0) > 20 || (estadisticas.salud_mental.porcentaje_ansiedad_alta || 0) > 20) && (
+                <div className="alert alert-critical">
+                  <strong>⚠️ Alerta Crítica de Salud Mental:</strong> Más del 20% de los estudiantes presentan niveles altos de {
+                    (estadisticas.salud_mental.porcentaje_depresion_alta || 0) > 20 && (estadisticas.salud_mental.porcentaje_ansiedad_alta || 0) > 20
+                      ? "depresión y ansiedad"
+                      : (estadisticas.salud_mental.porcentaje_depresion_alta || 0) > 20
+                      ? "depresión"
+                      : "ansiedad"
+                  }. Se recomienda intervención urgente del área de bienestar estudiantil.
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>
