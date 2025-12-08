@@ -38,6 +38,8 @@ interface Estudiante {
   Unemployment_rate: number;
   Inflation_rate: number;
   GDP: number;
+  Depression_score: number;
+  Anxiety_score: number;
 }
 
 interface PrediccionLote {

@@ -49,7 +49,11 @@ const variableDescriptions: { [key: string]: string } = {
   // Variables Macroeconómicas
   Unemployment_rate: "Tasa de desempleo del país al momento de inscripción",
   Inflation_rate: "Tasa de inflación del país al momento de inscripción", 
-  GDP: "Producto Interno Bruto del país al momento de inscripción"
+  GDP: "Producto Interno Bruto del país al momento de inscripción",
+  
+  // Variables de Salud Mental
+  Depression_score: "Puntuación de depresión del estudiante (escala 0-10, donde 10 es más severo)",
+  Anxiety_score: "Puntuación de ansiedad del estudiante (escala 0-10, donde 10 es más severo)"
 };
 
 interface Resultado {
@@ -129,6 +133,8 @@ export default function PrediccionForm() {
     Unemployment_rate: 8.5,
     Inflation_rate: 1.2,
     GDP: 12.0,
+    Depression_score: 0,
+    Anxiety_score: 0,
   });
 
   const [resultado, setResultado] = useState<Resultado | null>(null);
@@ -442,6 +448,54 @@ export default function PrediccionForm() {
               onChange={handleChange}
               className="form-input"
             />
+          </div>
+        </div>
+      </div>
+
+      {/* VARIABLES DE SALUD MENTAL */}
+      <div className="form-section section-critical">
+        <h2 className="section-title">Variables de Salud Mental (Crítico)</h2>
+        <div className="form-grid">
+          <div className="form-field">
+            <span className="form-label">Puntuación de Depresión (0-10)</span>
+            <span className="form-description">
+              {variableDescriptions.Depression_score}
+            </span>
+            <input
+              type="number"
+              step="0.1"
+              name="Depression_score"
+              value={formData.Depression_score}
+              onChange={handleChange}
+              min={0}
+              max={10}
+              placeholder="Ejemplo: 3.5"
+              className="form-input"
+            />
+            <small className="field-hint">
+              0 = Sin síntomas, 5-7 = Moderado, 7+ = Severo
+            </small>
+          </div>
+
+          <div className="form-field">
+            <span className="form-label">Puntuación de Ansiedad (0-10)</span>
+            <span className="form-description">
+              {variableDescriptions.Anxiety_score}
+            </span>
+            <input
+              type="number"
+              step="0.1"
+              name="Anxiety_score"
+              value={formData.Anxiety_score}
+              onChange={handleChange}
+              min={0}
+              max={10}
+              placeholder="Ejemplo: 4.2"
+              className="form-input"
+            />
+            <small className="field-hint">
+              0 = Sin síntomas, 5-7 = Moderado, 7+ = Severo
+            </small>
           </div>
         </div>
       </div>
