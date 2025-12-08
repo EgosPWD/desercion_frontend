@@ -579,7 +579,7 @@ export default function PrediccionForm() {
             <h4 className="shap-subtitle">Características más Influyentes</h4>
             <div className="shap-grid">
               {resultado.interpretabilidad.caracteristicas_top.map((caracteristica: CaracteristicaImportante, index: number) => (
-                <div key={index} className="shap-feature-card">
+                <div key={index} className={`shap-feature-card impact-${caracteristica.impacto_shap >= 0 ? 'positive' : 'negative'}`}>
                   <div className="shap-feature-header">
                     <span className="shap-rank">#{index + 1}</span>
                     <span className="shap-feature-name">{caracteristica.caracteristica}</span>
