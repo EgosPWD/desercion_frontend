@@ -424,6 +424,181 @@
 }
 
 /* ===================================
+   INTERPRETABILIDAD DEL MODELO (SHAP)
+   =================================== */
+
+.interpretability-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.interpretability-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.interpretability-description {
+  color: #f3f4f6;
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.shap-features {
+  background: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.shap-subtitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.75rem;
+}
+
+.shap-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.shap-feature-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.shap-feature-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.shap-feature-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.shap-rank {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.875rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.shap-feature-name {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.shap-feature-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.shap-feature-value,
+.shap-feature-impact,
+.shap-feature-coefficient {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.shap-label {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.shap-value {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.shap-impact {
+  font-weight: 700;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.shap-impact.positive {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.shap-impact.negative {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.shap-coefficient {
+  color: #4b5563;
+  font-weight: 600;
+}
+
+.shap-visual-bar {
+  height: 0.5rem;
+  background-color: #e5e7eb;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.shap-bar {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.shap-bar.positive {
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+}
+
+.shap-bar.negative {
+  background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+}
+
+.interpretability-note {
+  background: rgba(255, 255, 255, 0.2);
+  border-left: 4px solid #fbbf24;
+  color: #ffffff;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.interpretability-note strong {
+  color: #fef3c7;
+}
+
+/* ===================================
    MENSAJES DE ERROR Y ÉXITO
    =================================== */
 
@@ -462,4 +637,13 @@
   .form-grid {
     grid-template-columns: 1fr;
   }
+
+  .shap-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .interpretability-container {
+    padding: 1.5rem;
+  }
 }
+
