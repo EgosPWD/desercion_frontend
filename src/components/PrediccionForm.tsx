@@ -56,6 +56,19 @@ const variableDescriptions: { [key: string]: string } = {
   Anxiety_score: "Puntuación de ansiedad del estudiante (escala 0-10, donde 10 es más severo)"
 };
 
+interface CaracteristicaImportante {
+  caracteristica: string;
+  valor: number;
+  impacto_shap?: number;
+  impacto_coeficiente?: number;
+}
+
+interface Interpretabilidad {
+  descripcion: string;
+  caracteristicas_top: CaracteristicaImportante[] | string;
+  nota: string;
+}
+
 interface Resultado {
   usuario: string;
   resultado: string;
@@ -64,6 +77,7 @@ interface Resultado {
     graduacion: number;
     abandono: number;
   } | string;
+  interpretabilidad?: Interpretabilidad;
 }
 
 interface FactorRiesgo {
