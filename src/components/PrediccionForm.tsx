@@ -62,6 +62,37 @@ interface Resultado {
   } | string;
 }
 
+interface FactorRiesgo {
+  factor: string;
+  impacto: string;
+  descripcion: string;
+}
+
+interface AnalisisFactores {
+  usuario: string;
+  prediccion: string;
+  probabilidad_abandono: number;
+  total_factores_riesgo: number;
+  factores_riesgo: FactorRiesgo[];
+  nivel_atencion: string;
+}
+
+interface Recomendacion {
+  tipo: string;
+  prioridad: string;
+  accion: string;
+  descripcion: string;
+}
+
+interface Recomendaciones {
+  usuario: string;
+  prediccion: string;
+  probabilidad_abandono: number;
+  total_recomendaciones: number;
+  recomendaciones: Recomendacion[];
+  resumen_factores: string;
+}
+
 export default function PrediccionForm() {
   const [formData, setFormData] = useState({
     Marital_status: 1,
@@ -101,6 +132,8 @@ export default function PrediccionForm() {
   });
 
   const [resultado, setResultado] = useState<Resultado | null>(null);
+  const [analisisFactores, setAnalisisFactores] = useState<AnalisisFactores | null>(null);
+  const [recomendaciones, setRecomendaciones] = useState<Recomendaciones | null>(null);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -119,20 +152,50 @@ export default function PrediccionForm() {
     setCargando(true);
     setError(null);
     setResultado(null);
+    setAnalisisFactores(null);
+    setRecomendaciones(null);
 
     try {
-      const response = await fetch("https://desercion_api.quods.xyz/predecir", {
+      const authHeader = "Basic " + btoa("admin:12345");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: authHeader,
+      };
+
+      // Llamada 1: Predicción básica
+      const responsePrediccion = await fetch("https://desercion_api.quods.xyz/predecir", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + btoa("admin:12345"),
-        },
+        headers,
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-      const data: Resultado = await response.json();
-      setResultado(data);
+      if (!responsePrediccion.ok) throw new Error(`Error HTTP: ${responsePrediccion.status}`);
+      const dataPrediccion: Resultado = await responsePrediccion.json();
+      setResultado(dataPrediccion);
+
+      // Llamada 2: Análisis de factores de riesgo
+      const responseFactores = await fetch("https://desercion_api.quods.xyz/analizar/factores-riesgo", {
+        method: "POST",
+        headers,
+        body: JSON.stringify(formData),
+      });
+
+      if (responseFactores.ok) {
+        const dataFactores: AnalisisFactores = await responseFactores.json();
+        setAnalisisFactores(dataFactores);
+      }
+
+      // Llamada 3: Recomendaciones
+      const responseRecomendaciones = await fetch("https://desercion_api.quods.xyz/recomendaciones", {
+        method: "POST",
+        headers,
+        body: JSON.stringify(formData),
+      });
+
+      if (responseRecomendaciones.ok) {
+        const dataRecomendaciones: Recomendaciones = await responseRecomendaciones.json();
+        setRecomendaciones(dataRecomendaciones);
+      }
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -430,6 +493,63 @@ export default function PrediccionForm() {
             <p className="user-info">
               Usuario: <span className="font-semibold">{resultado.usuario}</span>
             </p>
+          </div>
+        </div>
+      )}
+
+      {/* Análisis de Factores de Riesgo */}
+      {analisisFactores && (
+        <div className="analysis-container">
+          <h3 className="analysis-title">
+            Análisis de Factores de Riesgo
+            <span className={`attention-badge attention-${analisisFactores.nivel_atencion.toLowerCase()}`}>
+              {analisisFactores.nivel_atencion}
+            </span>
+          </h3>
+          
+          {analisisFactores.factores_riesgo.length > 0 ? (
+            <div className="factors-grid">
+              {analisisFactores.factores_riesgo.map((factor, index) => (
+                <div key={index} className={`factor-card impact-${factor.impacto.toLowerCase()}`}>
+                  <div className="factor-header">
+                    <span className="factor-name">{factor.factor}</span>
+                    <span className={`factor-impact impact-${factor.impacto.toLowerCase()}`}>
+                      {factor.impacto}
+                    </span>
+                  </div>
+                  <p className="factor-description">{factor.descripcion}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="no-factors">No se identificaron factores de riesgo significativos</p>
+          )}
+        </div>
+      )}
+
+      {/* Recomendaciones */}
+      {recomendaciones && recomendaciones.recomendaciones.length > 0 && (
+        <div className="recommendations-container">
+          <h3 className="recommendations-title">
+            Recomendaciones de Intervención
+            <span className="recommendations-count">
+              {recomendaciones.total_recomendaciones} sugerencias
+            </span>
+          </h3>
+          
+          <div className="recommendations-grid">
+            {recomendaciones.recomendaciones.map((rec, index) => (
+              <div key={index} className={`recommendation-card priority-${rec.prioridad.toLowerCase()}`}>
+                <div className="recommendation-header">
+                  <span className="recommendation-type">{rec.tipo}</span>
+                  <span className={`recommendation-priority priority-${rec.prioridad.toLowerCase()}`}>
+                    {rec.prioridad}
+                  </span>
+                </div>
+                <h4 className="recommendation-action">{rec.accion}</h4>
+                <p className="recommendation-description">{rec.descripcion}</p>
+              </div>
+            ))}
           </div>
         </div>
       )}

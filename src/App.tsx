@@ -1,7 +1,13 @@
+import { useState } from "react";
 import PrediccionForm from "./components/PrediccionForm";
+import AnalisisMasivo from "./components/AnalisisMasivo";
 import "./App.css";
 
+type Vista = "individual" | "masivo";
+
 export default function App() {
+  const [vistaActual, setVistaActual] = useState<Vista>("individual");
+
   return (
     <div className="app-container">
       <div className="app-wrapper">
@@ -15,13 +21,29 @@ export default function App() {
             </p>
           </div>
 
+          {/* Navegación */}
+          <div className="nav-tabs">
+            <button
+              className={`nav-tab ${vistaActual === "individual" ? "active" : ""}`}
+              onClick={() => setVistaActual("individual")}
+            >
+              📊 Análisis Individual
+            </button>
+            <button
+              className={`nav-tab ${vistaActual === "masivo" ? "active" : ""}`}
+              onClick={() => setVistaActual("masivo")}
+            >
+              📈 Análisis Masivo
+            </button>
+          </div>
+
           <div className="app-content">
-            <PrediccionForm />
+            {vistaActual === "individual" ? <PrediccionForm /> : <AnalisisMasivo />}
           </div>
         </div>
 
         <div className="app-footer">
-          <p>Sistema de predicción v1.0 - Universidad</p>
+          <p>Sistema de predicción v2.0 - Universidad</p>
         </div>
       </div>
     </div>

@@ -36,6 +36,39 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+/* Navegación */
+.nav-tabs {
+  display: flex;
+  gap: 0;
+  background: #f3f4f6;
+  padding: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.nav-tab {
+  flex: 1;
+  padding: 1rem 2rem;
+  background: transparent;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-tab:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.nav-tab.active {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+}
+
 /* Form container */
 .app-content {
   padding: 2rem;
