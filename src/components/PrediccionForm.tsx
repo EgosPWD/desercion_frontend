@@ -1,115 +1,12 @@
 import { useState } from "react";
+import { variableDescriptions } from "../constants/variables";
+import { apiFetch } from "../api/client";
+import type { Resultado, AnalisisFactores, Recomendaciones } from "../types/api";
+import PredictionResult from "./Results/PredictionResult";
+import ShapInterpretability from "./Results/ShapInterpretability";
+import RiskFactors from "./Results/RiskFactors";
+import Recommendations from "./Results/Recommendations";
 import "./PrediccionForm.css";
-
-// Descripciones de las variables
-const variableDescriptions: { [key: string]: string } = {
-  // Variables de Rendimiento Académico
-  Curricular_units_2nd_sem_approved: "Número de materias aprobadas en el segundo semestre",
-  Curricular_units_2nd_sem_grade: "Promedio de calificaciones del segundo semestre (escala 0-20)",
-  Curricular_units_1st_sem_approved: "Número de materias aprobadas en el primer semestre", 
-  Curricular_units_1st_sem_grade: "Promedio de calificaciones del primer semestre (escala 0-20)",
-  Curricular_units_1st_sem_credited: "Materias convalidadas por estudios previos en primer semestre",
-  Curricular_units_1st_sem_enrolled: "Número de materias inscritas en primer semestre",
-  Curricular_units_1st_sem_evaluations: "Número total de evaluaciones realizadas en primer semestre",
-  Curricular_units_1st_sem_without_evaluations: "Materias sin evaluación en primer semestre",
-  Curricular_units_2nd_sem_credited: "Materias convalidadas en segundo semestre",
-  Curricular_units_2nd_sem_enrolled: "Materias inscritas en segundo semestre",
-  Curricular_units_2nd_sem_evaluations: "Evaluaciones realizadas en segundo semestre",
-  Curricular_units_2nd_sem_without_evaluations: "Materias sin evaluación en segundo semestre",
-  
-  // Variables Financieras
-  Tuition_fees_up_to_date: "Indica si el estudiante está al día con el pago de matrícula",
-  Debtor: "Indica si el estudiante tiene deudas con la institución",
-  
-  // Variables de Apoyo Educativo
-  Scholarship_holder: "Indica si el estudiante tiene beca",
-  Educational_special_needs: "Indica si tiene necesidades educativas especiales o discapacidad",
-  
-  // Variables Demográficas
-  Age_at_enrollment: "Edad del estudiante al momento de inscribirse en la universidad",
-  Gender: "Género del estudiante",
-  Marital_status: "Estado civil del estudiante (Soltero, Casado, Viudo, etc.)",
-  Nacionality: "País de origen del estudiante",
-  Displaced: "Indica si el estudiante vive lejos de su lugar de origen/familia",
-  International: "Indica si el estudiante es extranjero/internacional",
-  
-  // Variables de Acceso/Admisión
-  Application_mode: "Método o vía de ingreso utilizada (contingente general, transferencia, etc.)",
-  Application_order: "Preferencia de elección del curso (0=primera opción, 9=última)",
-  Course: "Carrera/programa académico en el que se inscribió",
-  Daytime_evening_attendance: "Horario de clases (Diurno o Nocturno)",
-  Previous_qualification: "Nivel educativo previo del estudiante",
-  
-  // Variables Socioeconómicas Familiares
-  Mothers_qualification: "Nivel educativo de la madre",
-  Fathers_qualification: "Nivel educativo del padre", 
-  Mothers_occupation: "Profesión u ocupación de la madre",
-  Fathers_occupation: "Profesión u ocupación del padre",
-  
-  // Variables Macroeconómicas
-  Unemployment_rate: "Tasa de desempleo del país al momento de inscripción",
-  Inflation_rate: "Tasa de inflación del país al momento de inscripción", 
-  GDP: "Producto Interno Bruto del país al momento de inscripción",
-  
-  // Variables de Salud Mental
-  Depression_score: "Puntuación de depresión del estudiante (escala 0-10, donde 10 es más severo)",
-  Anxiety_score: "Puntuación de ansiedad del estudiante (escala 0-10, donde 10 es más severo)"
-};
-
-interface CaracteristicaImportante {
-  caracteristica: string;
-  valor: number;
-  impacto_shap: number;
-  impacto_coeficiente?: number;
-}
-
-interface Interpretabilidad {
-  descripcion: string;
-  caracteristicas_top: CaracteristicaImportante[];
-  nota?: string;
-}
-
-interface Resultado {
-  usuario: string;
-  resultado: string;
-  probabilidad_resultado: number | string;
-  probabilidades_detalladas: {
-    graduacion: number;
-    abandono: number;
-  } | string;
-  interpretabilidad?: Interpretabilidad;
-}
-
-interface FactorRiesgo {
-  factor: string;
-  impacto: string;
-  descripcion: string;
-}
-
-interface AnalisisFactores {
-  usuario: string;
-  prediccion: string;
-  probabilidad_abandono: number;
-  total_factores_riesgo: number;
-  factores_riesgo: FactorRiesgo[];
-  nivel_atencion: string;
-}
-
-interface Recomendacion {
-  tipo: string;
-  prioridad: string;
-  accion: string;
-  descripcion: string;
-}
-
-interface Recomendaciones {
-  usuario: string;
-  prediccion: string;
-  probabilidad_abandono: number;
-  total_recomendaciones: number;
-  recomendaciones: Recomendacion[];
-  resumen_factores: string;
-}
 
 export default function PrediccionForm() {
   const [formData, setFormData] = useState({
@@ -176,46 +73,23 @@ export default function PrediccionForm() {
     setRecomendaciones(null);
 
     try {
-      const authHeader = "Basic " + btoa("admin:12345");
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: authHeader,
-      };
-
-      // Llamada 1: Predicción básica
-      const responsePrediccion = await fetch("https://desercion_api.quods.xyz/predecir", {
+      const dataPrediccion = await apiFetch<Resultado>("/predecir", {
         method: "POST",
-        headers,
         body: JSON.stringify(formData),
       });
-
-      if (!responsePrediccion.ok) throw new Error(`Error HTTP: ${responsePrediccion.status}`);
-      const dataPrediccion: Resultado = await responsePrediccion.json();
       setResultado(dataPrediccion);
 
-      // Llamada 2: Análisis de factores de riesgo
-      const responseFactores = await fetch("https://desercion_api.quods.xyz/analizar/factores-riesgo", {
+      const dataFactores = await apiFetch<AnalisisFactores>("/analizar/factores-riesgo", {
         method: "POST",
-        headers,
         body: JSON.stringify(formData),
       });
+      setAnalisisFactores(dataFactores);
 
-      if (responseFactores.ok) {
-        const dataFactores: AnalisisFactores = await responseFactores.json();
-        setAnalisisFactores(dataFactores);
-      }
-
-      // Llamada 3: Recomendaciones
-      const responseRecomendaciones = await fetch("https://desercion_api.quods.xyz/recomendaciones", {
+      const dataRecomendaciones = await apiFetch<Recomendaciones>("/recomendaciones", {
         method: "POST",
-        headers,
         body: JSON.stringify(formData),
       });
-
-      if (responseRecomendaciones.ok) {
-        const dataRecomendaciones: Recomendaciones = await responseRecomendaciones.json();
-        setRecomendaciones(dataRecomendaciones);
-      }
+      setRecomendaciones(dataRecomendaciones);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -225,7 +99,6 @@ export default function PrediccionForm() {
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
-      {/* INFORMACIÓN SOBRE VARIABLES */}
       <div className="form-section section-info">
         <h2 className="section-title">Información sobre las Variables</h2>
         <div className="info-content">
@@ -243,7 +116,6 @@ export default function PrediccionForm() {
         </div>
       </div>
 
-      {/* VARIABLES CRÍTICAS */}
       <div className="form-section section-critical">
         <h2 className="section-title">Variables Críticas (Mayor Impacto)</h2>
         <div className="form-grid">
@@ -347,7 +219,6 @@ export default function PrediccionForm() {
         </div>
       </div>
 
-      {/* VARIABLES IMPORTANTES */}
       <div className="form-section section-important">
         <h2 className="section-title">Variables Importantes</h2>
         <div className="form-grid">
@@ -415,7 +286,6 @@ export default function PrediccionForm() {
         </div>
       </div>
 
-      {/* VARIABLES MACROECONÓMICAS */}
       <div className="form-section section-macroeconomic">
         <h2 className="section-title">Variables Macroeconómicas</h2>
         <div className="form-grid">
@@ -466,7 +336,6 @@ export default function PrediccionForm() {
         </div>
       </div>
 
-      {/* VARIABLES DE SALUD MENTAL */}
       <div className="form-section section-critical">
         <h2 className="section-title">Variables de Salud Mental (Crítico)</h2>
         <div className="form-grid">
@@ -525,159 +394,16 @@ export default function PrediccionForm() {
         </div>
       )}
 
-      {resultado && (
-        <div className="result-container">
-          <div className="result-content">
-            <p className="result-text">{resultado.resultado}</p>
-            <div className="probability-container">
-              <p className="probability-label">
-                Probabilidad del Resultado
-              </p>
-              <p className="probability-value">
-                {resultado.probabilidad_resultado}
-              </p>
-            </div>
-            
-            {typeof resultado.probabilidades_detalladas === 'object' && (
-              <div className="detailed-probabilities">
-                <h4 className="probabilities-title">Probabilidades Detalladas</h4>
-                <div className="probabilities-grid">
-                  <div className="probability-item">
-                    <span className="probability-label">Graduación:</span>
-                    <span className="probability-value">
-                      {resultado.probabilidades_detalladas.graduacion}
-                    </span>
-                  </div>
-                  <div className="probability-item">
-                    <span className="probability-label">Abandono:</span>
-                    <span className="probability-value">
-                      {resultado.probabilidades_detalladas.abandono}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
-            
-            <p className="user-info">
-              Usuario: <span className="font-semibold">{resultado.usuario}</span>
-            </p>
-          </div>
-        </div>
-      )}
+      {resultado && <PredictionResult resultado={resultado} />}
 
-      {/* Interpretabilidad del Modelo (SHAP) */}
       {resultado && resultado.interpretabilidad && (
-        <div className="interpretability-container">
-          <h3 className="interpretability-title">
-            Interpretabilidad del Modelo
-          </h3>
-          <p className="interpretability-description">
-            {resultado.interpretabilidad.descripcion}
-          </p>
-          
-          <div className="shap-features">
-            <h4 className="shap-subtitle">Características más Influyentes</h4>
-            <div className="shap-grid">
-              {resultado.interpretabilidad.caracteristicas_top.map((caracteristica: CaracteristicaImportante, index: number) => (
-                <div key={index} className={`shap-feature-card impact-${caracteristica.impacto_shap >= 0 ? 'positive' : 'negative'}`}>
-                  <div className="shap-feature-header">
-                    <span className="shap-rank">#{index + 1}</span>
-                    <span className="shap-feature-name">{caracteristica.caracteristica}</span>
-                  </div>
-                  <div className="shap-feature-content">
-                    <div className="shap-feature-value">
-                      <span className="shap-label">Valor:</span>
-                      <span className="shap-value">{caracteristica.valor}</span>
-                    </div>
-                    <div className="shap-feature-impact">
-                      <span className="shap-label">Impacto SHAP:</span>
-                      <span className={`shap-impact ${caracteristica.impacto_shap >= 0 ? 'positive' : 'negative'}`}>
-                        {caracteristica.impacto_shap > 0 ? '+' : ''}{caracteristica.impacto_shap.toFixed(4)}
-                      </span>
-                    </div>
-                    {caracteristica.impacto_coeficiente !== undefined && (
-                      <div className="shap-feature-coefficient">
-                        <span className="shap-label">Coeficiente:</span>
-                        <span className="shap-coefficient">{caracteristica.impacto_coeficiente.toFixed(4)}</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="shap-visual-bar">
-                    <div 
-                      className={`shap-bar ${caracteristica.impacto_shap >= 0 ? 'positive' : 'negative'}`}
-                      style={{ 
-                        width: `${Math.min(Math.abs(caracteristica.impacto_shap) * 100, 100)}%` 
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          {resultado.interpretabilidad.nota && (
-            <p className="interpretability-note">
-              <strong>Nota:</strong> {resultado.interpretabilidad.nota}
-            </p>
-          )}
-        </div>
+        <ShapInterpretability interpretabilidad={resultado.interpretabilidad} />
       )}
 
-      {/* Análisis de Factores de Riesgo */}
-      {analisisFactores && (
-        <div className="analysis-container">
-          <h3 className="analysis-title">
-            Análisis de Factores de Riesgo
-            <span className={`attention-badge attention-${analisisFactores.nivel_atencion.toLowerCase()}`}>
-              {analisisFactores.nivel_atencion}
-            </span>
-          </h3>
-          
-          {analisisFactores.factores_riesgo.length > 0 ? (
-            <div className="factors-grid">
-              {analisisFactores.factores_riesgo.map((factor, index) => (
-                <div key={index} className={`factor-card impact-${factor.impacto.toLowerCase()}`}>
-                  <div className="factor-header">
-                    <span className="factor-name">{factor.factor}</span>
-                    <span className={`factor-impact impact-${factor.impacto.toLowerCase()}`}>
-                      {factor.impacto}
-                    </span>
-                  </div>
-                  <p className="factor-description">{factor.descripcion}</p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="no-factors">No se identificaron factores de riesgo significativos</p>
-          )}
-        </div>
-      )}
+      {analisisFactores && <RiskFactors analisisFactores={analisisFactores} />}
 
-      {/* Recomendaciones */}
       {recomendaciones && recomendaciones.recomendaciones.length > 0 && (
-        <div className="recommendations-container">
-          <h3 className="recommendations-title">
-            Recomendaciones de Intervención
-            <span className="recommendations-count">
-              {recomendaciones.total_recomendaciones} sugerencias
-            </span>
-          </h3>
-          
-          <div className="recommendations-grid">
-            {recomendaciones.recomendaciones.map((rec, index) => (
-              <div key={index} className={`recommendation-card priority-${rec.prioridad.toLowerCase()}`}>
-                <div className="recommendation-header">
-                  <span className="recommendation-type">{rec.tipo}</span>
-                  <span className={`recommendation-priority priority-${rec.prioridad.toLowerCase()}`}>
-                    {rec.prioridad}
-                  </span>
-                </div>
-                <h4 className="recommendation-action">{rec.accion}</h4>
-                <p className="recommendation-description">{rec.descripcion}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <Recommendations recomendaciones={recomendaciones} />
       )}
     </form>
   );
