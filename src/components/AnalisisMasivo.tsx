@@ -136,10 +136,16 @@ export default function AnalisisMasivo() {
 
   return (
     <div className="masivo-container">
-      <h1 className="masivo-title">Análisis Masivo de Estudiantes</h1>
+      <div className="masivo-page-header">
+        <span className="masivo-task-tag">[ TASK_ID: BATCH_ANALYSIS_01 ]</span>
+        <h1 className="masivo-title">Análisis Masivo</h1>
+        <p className="masivo-description">
+          Ejecutá modelos predictivos sobre conjuntos de datos estudiantiles completos para identificar patrones de deserción a nivel institucional.
+        </p>
+      </div>
 
       <div className="upload-section">
-        <h2 className="section-title">1. Cargar Datos</h2>
+        <h2 className="section-title">Cargar Datos</h2>
         <div className="upload-card">
           <div
             className="drop-zone"

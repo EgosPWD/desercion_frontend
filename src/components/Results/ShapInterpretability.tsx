@@ -1,4 +1,5 @@
 import type { Interpretabilidad, CaracteristicaImportante } from "../../types/api";
+import "./ShapInterpretability.css";
 
 interface ShapInterpretabilityProps {
   interpretabilidad: Interpretabilidad;

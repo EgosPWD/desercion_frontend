@@ -1,4 +1,5 @@
 import type { Recomendaciones, Recomendacion } from "../../types/api";
+import "./Recommendations.css";
 
 interface RecommendationsProps {
   recomendaciones: Recomendaciones;

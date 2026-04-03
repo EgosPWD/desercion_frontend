@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "add": "^2.0.6",
+    "geist": "^1.7.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

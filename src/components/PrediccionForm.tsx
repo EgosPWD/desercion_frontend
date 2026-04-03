@@ -99,25 +99,46 @@ export default function PrediccionForm() {
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
-      <div className="form-section section-info">
-        <h2 className="section-title">Información sobre las Variables</h2>
-        <div className="info-content">
-          <p className="info-text">
-            Este formulario utiliza variables categorizadas por su impacto en la predicción de deserción:
-          </p>
-          <ul className="info-list">
-            <li><strong>Variables Críticas:</strong> Tienen el mayor impacto en la predicción (rendimiento académico, situación financiera)</li>
-            <li><strong>Variables Importantes:</strong> Contribuyen significativamente al modelo (demográficas, admisión)</li>
-            <li><strong>Variables Macroeconómicas:</strong> Contexto económico del país al momento de inscripción</li>
-          </ul>
-          <p className="info-note">
-            <em>Pasa el cursor sobre cada campo para ver su descripción detallada.</em>
-          </p>
-        </div>
+
+      {/* ── Page Header ── */}
+      <div className="form-page-header">
+        <span className="form-mode-tag">[ ANALYSIS_MODE_ACTIVE ]</span>
+        <h1 className="form-page-title">Análisis Individual</h1>
       </div>
 
+      {/* ── Info Section ── */}
+      <div className="form-section section-info">
+        <div className="info-cards">
+          <div className="info-card">
+            <span className="info-card-label critical">Críticas</span>
+            <p className="info-card-text">
+              Variables de rendimiento académico inmediato con alto peso estadístico en la deserción.
+            </p>
+          </div>
+          <div className="info-card">
+            <span className="info-card-label important">Importantes</span>
+            <p className="info-card-text">
+              Factores demográficos y financieros que influyen en la estabilidad del estudiante.
+            </p>
+          </div>
+          <div className="info-card">
+            <span className="info-card-label macro">Macroeconómicas</span>
+            <p className="info-card-text">
+              Factores externos del entorno económico que afectan la capacidad de permanencia.
+            </p>
+          </div>
+        </div>
+        <p className="info-note">
+          Pasá el cursor sobre cada campo para ver su descripción detallada.
+        </p>
+      </div>
+
+      {/* ── Variables Críticas ── */}
       <div className="form-section section-critical">
-        <h2 className="section-title">Variables Críticas (Mayor Impacto)</h2>
+        <div className="section-header">
+          <span className="section-number">01</span>
+          <h2 className="section-title">Variables Críticas</h2>
+        </div>
         <div className="form-grid">
           <div className="form-field">
             <span className="form-label">Unidades Aprobadas 2do Semestre</span>
@@ -219,8 +240,12 @@ export default function PrediccionForm() {
         </div>
       </div>
 
+      {/* ── Variables Importantes ── */}
       <div className="form-section section-important">
-        <h2 className="section-title">Variables Importantes</h2>
+        <div className="section-header">
+          <span className="section-number">02</span>
+          <h2 className="section-title">Variables Importantes</h2>
+        </div>
         <div className="form-grid">
           <div className="form-field">
             <span className="form-label">Edad al Inscribirse</span>
@@ -286,8 +311,12 @@ export default function PrediccionForm() {
         </div>
       </div>
 
+      {/* ── Variables Macroeconómicas ── */}
       <div className="form-section section-macroeconomic">
-        <h2 className="section-title">Variables Macroeconómicas</h2>
+        <div className="section-header">
+          <span className="section-number">03</span>
+          <h2 className="section-title">Variables Macroeconómicas</h2>
+        </div>
         <div className="form-grid">
           <div className="form-field">
             <span className="form-label">Tasa de Desempleo (%)</span>
@@ -336,8 +365,12 @@ export default function PrediccionForm() {
         </div>
       </div>
 
+      {/* ── Variables de Salud Mental ── */}
       <div className="form-section section-critical">
-        <h2 className="section-title">Variables de Salud Mental (Crítico)</h2>
+        <div className="section-header">
+          <span className="section-number">04</span>
+          <h2 className="section-title">Variables de Salud Mental</h2>
+        </div>
         <div className="form-grid">
           <div className="form-field">
             <span className="form-label">Puntuación de Depresión (0-10)</span>
@@ -356,7 +389,7 @@ export default function PrediccionForm() {
               className="form-input"
             />
             <small className="field-hint">
-              0 = Sin síntomas, 5-7 = Moderado, 7+ = Severo
+              0 = Sin síntomas · 5-7 = Moderado · 7+ = Severo
             </small>
           </div>
 
@@ -377,20 +410,20 @@ export default function PrediccionForm() {
               className="form-input"
             />
             <small className="field-hint">
-              0 = Sin síntomas, 5-7 = Moderado, 7+ = Severo
+              0 = Sin síntomas · 5-7 = Moderado · 7+ = Severo
             </small>
           </div>
         </div>
       </div>
 
       <button type="submit" disabled={cargando} className="submit-button">
-        {cargando ? "Prediciendo..." : "Generar Predicción"}
+        {cargando ? "Analizando..." : "Generar Predicción"}
       </button>
 
       {error && (
         <div className="error-container">
           <p className="error-title">Error</p>
-          <p className="mt-1">{error}</p>
+          <p>{error}</p>
         </div>
       )}
 

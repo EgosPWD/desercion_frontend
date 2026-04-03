@@ -1,4 +1,5 @@
 import type { AnalisisFactores, FactorRiesgo } from "../../types/api";
+import "./RiskFactors.css";
 
 interface RiskFactorsProps {
   analisisFactores: AnalisisFactores;

@@ -1,4 +1,5 @@
 import type { Resultado } from "../../types/api";
+import "./PredictionResult.css";
 
 interface PredictionResultProps {
   resultado: Resultado;
