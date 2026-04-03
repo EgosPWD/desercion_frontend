@@ -1,73 +1,95 @@
-# React + TypeScript + Vite
+# Desercion — Predicción de Deserción Estudiantil
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend en React + TypeScript + Vite para predecir la deserción estudiantil en educación superior.
 
-Currently, two official plugins are available:
+## Descripción
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Esta aplicación permite predecir si un estudiante abandonará su carrera universitaria basándose en datos académicos, socioeconómicos y de salud mental. Utiliza un modelo de machine learning que devuelve:
 
-## React Compiler
+- Predicción de riesgo (dropout, graduación o继续 enrollado)
+- Probabilidades detalladas para cada resultado
+- Factores de riesgo identificados
+- Interpretabilidad del modelo mediante valores SHAP
+- Recomendaciones personalizadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Funcionalidades
 
-## Expanding the ESLint configuration
+### Formulario de Predicción
+Recolecta información del estudiante:
+- Datos personales (edad, género, estado civil, nacionalidad)
+- Datos académicos (carrera, modalidad, calificaciones, unidades cursadas)
+- Datos familiares (ocupación y educación de los padres)
+- Indicadores económicos (PIB, inflación, tasa de desempleo)
+- Salud mental (puntajes de depresión y ansiedad)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Análisis Masivo
+Permite procesar múltiples estudiantes desde un archivo CSV.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Interpretabilidad
+Valores SHAP para entender qué factores influyen en la predicción del modelo.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **React 19** — UI
+- **TypeScript** — Tipado estático
+- **Vite** — Build tool
+- **CSS** — Estilos (tema editorial oscuro)
+
+## Configuración
+
+### Variables de Entorno
+
+Crear `.env`:
+```env
+VITE_API_URL=http://localhost:8000
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 安装 dependencias
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+### Desarrollo
+
+```bash
+npm run dev
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+## Estructura del Proyecto
+
+```
+src/
+├── api/client.ts          # Cliente HTTP
+├── components/
+│   ├── PrediccionForm.tsx    # Formulario de predicción
+│   ├── AnalisisMasivo.tsx    # Análisis masivo
+│   ├── AppTabs.tsx           # Navegación
+│   └── Results/              # Componentes de resultados
+│       ├── PredictionResult.tsx
+│       ├── ShapInterpretability.tsx
+│       ├── RiskFactors.tsx
+│       └── Recommendations.tsx
+├── types/api.ts           # Tipos TypeScript
+├── constants/variables.ts # Variables del modelo
+└── config/env.ts          # Configuración de entorno
+```
+
+## API
+
+La aplicación se conecta a un backend que corre el modelo de ML. El endpoint esperado:
+
+```
+POST /predict
+Body: { ...datos del estudiante }
+```
+
+## Licencia
+
+MIT
