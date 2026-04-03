@@ -104,12 +104,16 @@ html {
   text-rendering: optimizeLegibility;
 }
 
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-base);
   color: var(--text-primary);
   line-height: 1.5;
-  min-height: 100vh;
 }
 
 /* ===================================
