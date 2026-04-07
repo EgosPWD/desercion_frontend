@@ -1,26 +1,26 @@
-# Usamos Node.js
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
-# Directorio de trabajo
 WORKDIR /app
 
-# Copiamos package.json y package-lock.json
-COPY package*.json ./
+ARG VITE_API_BASE_URL=http://localhost:8182
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 
-# Instalamos dependencias
+COPY package*.json ./
 RUN npm install
 
-# Copiamos el resto del proyecto
 COPY . .
-
-# Construimos la app
 RUN npm run build
 
-# Instalamos "serve" globalmente para servir la app
+FROM node:20-alpine
+
+WORKDIR /app
+
 RUN npm install -g serve
 
-# Exponer puerto (puedes cambiarlo)
+COPY --from=builder /app/dist ./dist
+
+ENV PORT=3020
+
 EXPOSE 3020
 
-# Comando para servir la app
-CMD ["serve", "-s", "dist", "-l", "3020"]
+CMD ["sh", "-c", "serve -s dist -l ${PORT}"]
