@@ -1,13 +1,41 @@
+export interface AuthUser {
+  id: number;
+  username: string;
+  email: string;
+}
+
+export interface LoginRequest {
+  username_or_email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  access_token: string;
+  token_type: "bearer" | string;
+  user: AuthUser;
+}
+
+export interface SessionData {
+  token: string;
+  user: AuthUser;
+}
+
 export interface CaracteristicaImportante {
   caracteristica: string;
   valor: number;
-  impacto_shap: number;
+  impacto_shap?: number;
   impacto_coeficiente?: number;
 }
 
 export interface Interpretabilidad {
   descripcion: string;
-  caracteristicas_top: CaracteristicaImportante[];
+  caracteristicas_top: CaracteristicaImportante[] | string;
   nota?: string;
 }
 
@@ -15,10 +43,12 @@ export interface Resultado {
   usuario: string;
   resultado: string;
   probabilidad_resultado: number | string;
-  probabilidades_detalladas: {
-    graduacion: number;
-    abandono: number;
-  } | string;
+  probabilidades_detalladas:
+    | {
+        graduacion: number;
+        abandono: number;
+      }
+    | string;
   interpretabilidad?: Interpretabilidad;
 }
 
@@ -172,4 +202,26 @@ export interface EstadisticasGenerales {
     estudiantes_ansiedad_alta: number;
     porcentaje_ansiedad_alta: number;
   };
+}
+
+export interface HistorialPrediccion {
+  id: number;
+  usuario_id: number | null;
+  usuario_username: string | null;
+  estudiante_id: string | null;
+  endpoint: string;
+  prediccion: number;
+  resultado: string;
+  probabilidad_abandono: number | null;
+  probabilidad_graduacion: number | null;
+  features: Record<string, unknown>;
+  fecha: string | null;
+}
+
+export interface HistorialResponse {
+  usuario: string;
+  total: number;
+  limit: number;
+  offset: number;
+  predicciones: HistorialPrediccion[];
 }
